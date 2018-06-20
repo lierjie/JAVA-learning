@@ -1,33 +1,34 @@
-import java.io.*;  
-public class TestIO {  
-    public static void main(String args[]) {  
-        try {  
-            String pathname = "input.txt"; 
-            File filename = new File(pathname);  
-            InputStreamReader reader = new InputStreamReader(  
-                new FileInputStream(filename)); 
-            BufferedReader br = new BufferedReader(reader);  
-            String line = "";  
-            line = br.readLine();  
-            while (line != null) {  
-				System.out.println(line);
-                line = br.readLine(); 
-            }  
-        } catch (Exception e){  
-            e.printStackTrace();  
-        }  
-				
+import java.io.*;
+public class TEST{
+	public static void main(String [] args){
 		String space = System.getProperty("line.separator");
 		FileWriter output = null;
 		try{
-			output = new FileWriter("test.txt");
+			output = new FileWriter("aaa.txt",true);
 			output.write(Math.random() + "");
-			output.write(space);
+			output.write(space);			
 			output.write(Math.random() + "");
 			output.write(space);
 			output.close();
-		}catch(Exception e){
+		} catch (Exception e){
 			e.printStackTrace();
+		}		
+
+
+
+	try{
+		BufferedReader bfreader = new BufferedReader(new InputStreamReader(new FileInputStream("aaa.txt")));
+	    String num = bfreader.readLine();
+	    while(num != null){
+		    System.out.println(num);
+			num = bfreader.readLine();
 		}
-    }  
-}  
+	} catch (Exception e){
+		e.printStackTrace();
+	}
+
+	
+	}
+
+	
+}
