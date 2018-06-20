@@ -1,0 +1,60 @@
+首先，写入文本文件需要打开一个文件，打开一个文件有两种形式，分为创建一个新的文件和向一个已有的文件中追加数据 
+我们先来看一看创建一个新的文件的方法
+
+创建一个新的文件
+import java.io.PrintWriter;
+import java.io.FileOutputStream;
+import java.io.FileNotFoundException;
+
+public class Main {
+
+    public static void main(String[] args) {
+        PrintWriter outputStream = null;
+        try
+        {
+            outputStream = new PrintWriter(new 
+                     FileOutputStream("stuff.txt"));
+        }catch (FileNotFoundException e)
+        {
+            System.out.println("Error opening the file 
+                                    stuff.txt");
+            System.exit(0);
+        }
+        System.out.println("Writing to file");
+
+        outputStream.println("The quick brown fox");
+        outputStream.println("jumped over the lazy 
+                                      dog.");
+
+        outputStream.close();
+        System.out.println("End of program");
+    }
+}
+
+文件的输入和输出的相关的类都在java.io包中，在事例程序中，我们创建了一个名为stuff.txt的文件，在我们的工程文件夹下面我们可以看到一个这样的文本文件，打开后里面是 
+The quick brown fox 
+jumped over the lazy dog. 
+两行字符。
+
+使用
+
+outputStream = new PrintWriter(new  
+                         FileOutputStream("stuff.txt"));
+
+来创建一个新的文件，outputStream变量是PrintWriter类型的，并且实在try块外面声明的，这是因为如果在try语句块内部声明，那么outputStream变量将会变成一个局部变量，将无法在try外部使用。而使用这种方法创建的文件总是一个空的文件，也就是说，如果你指定的文件夹中没有stuff.txt文件，那么系统会帮你创建一个stuff.txt文件，如果有一个stuff.txt文件，那么会先删除原先的stuff.txt文件，然后再创建一个新的stuff.txt文件。
+
+我们使用try – catch语句来捕获异常，防止创建文件失败，好抛出异常。
+
+在向文件中写入数据的时候，我们使用的print方法，println方法，printf方法等等和我们平时输入到屏幕上的其实是一样的。
+
+在对文件操作完成以后不要忘记关闭文件，虽然java会帮我们关闭文件，但是当程序异常的结束或者发生错误的时候，java没法帮我们关闭文件，而且还有可能损坏文件。而关闭文件还有一个好处就是可以把缓冲区的所有数据强制输出到文件中，防止文件不完整。
+
+我们最后再谈谈缓冲区的问题，与文件相连的输出流通通常被缓冲，这就意味着程序并非尽快的实际写入输出数据的每一个实例，而是把数据保存到一个成为缓冲区的临时储存单元中，当这个临时储存单元累积的数据足够多的时候，把数据写入文件，这样做可以减少写入次数，提高效率，使用flush（）方法可以强制把已被缓冲，但还没有实际写入文件的数据写入文件，而是用close（）方法可以同时自动的调用flush（）方法。
+
+把数据追加到文本文件
+最后我们再来讲一下把数据追加到文本文件，其实就是打开文件的时候有点不太一样，使用
+
+outputStream = new PrintWriter(new 
+                  FileOutputStream("stuff.txt", true));
+
+就可以实现向文本文件中盘那个追加数据，同时true可以使用一个boolean的变量来代替，可以让用户选择是否向文件中追加数据。
